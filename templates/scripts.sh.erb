@@ -1,0 +1,47 @@
+#!/bin/bash
+# 
+# chkconfig: <%= @start_levels %> <%= @start_priority %> <%= @end_priority %>
+# descrition: <%= @description %>
+
+# Import function library
+. /etc/rc.d/init.d/functions
+
+prog=`basename $0`
+
+# Commands
+script_user="<%= @user %>"
+script_cwd="<%= @cwd %>"
+script_start="<%= @start %>"
+script_stop="<%= @stop %>"
+script_status="<%= @status %>"
+lockfile="<%= @lockfile %>"
+
+case "$1" in
+    start)
+	    echo -n "Starting $prog: "
+	    cd "$script_cwd"
+	    sudo -u "$script_user" $script_start &
+	    RETVAL=$?
+	    [ $RETVAL = 0 ] && success; touch $lockfile || failure
+    ;;
+    stop)
+	    echo -n "Stopping $prog: "
+	    cd "$script_cwd"
+	    sudo -u "$script_user" $script_stop && success; rm -f $lockfile || failure
+	    RETVAL=$?
+    ;;
+    restart)
+	    $0 stop && $0 start
+    ;;
+    status)
+	    cd "$script_cwd"
+	    sudo -u "$script_user" $script_status
+            RETVAL=$?
+    ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+    ;;
+esac
+
+exit $RETVAL

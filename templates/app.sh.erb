@@ -1,0 +1,40 @@
+#!/bin/bash
+# 
+# chkconfig: <%= @start_levels %> <%= @start_priority %> <%= @end_priority %>
+# descrition: <%= @description %>
+
+# Import function library
+. /etc/rc.d/init.d/functions
+
+prog=`basename $0`
+
+pid_file="<%= @pid_file %>"
+stdout_log="<%= @stdout_log %>"
+stderr_log="<%= @stderr_log %>"
+
+# Commands
+user="<%= @app_user %>"
+service_cmd="<%= @service_cmd %>"
+
+case "$1" in
+    start)
+	echo "Starting $prog: "
+	return daemon --user=$user --pidfile=$pid_file $service_cmd
+    ;;
+    stop)
+	echo -n "Stopping $prog: "
+	return killproc -p $pid_file
+    ;;
+    restart)
+	$0 stop && $0 start
+    ;;
+    status)
+	status -p $pid_file $prog
+    ;;
+    *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
