@@ -1,5 +1,8 @@
 puppet-system_v
 ===============
 
-To-do:
-- test out `apps.sh.erb`
+Creates init.d system_v scripts.
+
+#Tested on
+RHEL5
+RHEL6
