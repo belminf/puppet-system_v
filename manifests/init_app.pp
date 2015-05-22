@@ -1,4 +1,7 @@
 define system_v::init_app(
+    $start_levels = '2345',
+    $start_priority = '85',
+    $end_priority = '15',
     $proc,
     $options,
     $pid_file = "/var/run/${name}.pid",
