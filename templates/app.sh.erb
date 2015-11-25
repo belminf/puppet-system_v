@@ -21,21 +21,25 @@ case "$1" in
   start)
     echo -n "Starting $prog: "
     daemon --user=$user $proc $options
+    RETVAL=$?
     pidofproc $proc > $pid_file
     echo
-    exit $?
+    exit $RETVAL
   ;;
   stop)
     echo -n "Stopping $prog: "
     killproc -p $pid_file
+    RETVAL=$?
     echo
-    exit $?
+    exit $RETVAL
     ;;
   restart)
     $0 stop && $0 start
     ;;
   status)
     status -p $pid_file $prog
+    RETVAL=$?
+    exit $RETVAL
     ;;
   *)
     echo "Usage: $0 {start|stop|restart|status}"
