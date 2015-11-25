@@ -8,6 +8,7 @@ define system_v::init_app(
     $stdout_log = "/var/log/${name}.log",
     $stderr_log = "/var/log/${name}.log",
     $user = 'root',
+    $description = $title,
 ) {
     file { "/etc/init.d/${name}":
         content => template('system_v/app.sh.erb'),
